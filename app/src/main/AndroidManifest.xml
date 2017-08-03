@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.besafe.noubax.besafe">
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -18,6 +19,38 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".CreateAccount" >
+        </activity>
+        <activity
+            android:name=".About"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".categoryBeSafe" >
+        </activity>
+        <activity android:name=".Createcate" >
+        </activity>
+        <activity
+            android:name=".pattren_lock"
+             >
+        </activity>
+        <activity
+            android:name=".MasterSetting"
+            android:label="@string/title_activity_master_setting" >
+        </activity>
+        <activity
+            android:name=".Pin"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_pin"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
+        <activity android:name=".Setting" >
+        </activity>
+        <activity android:name=".Setting_LockScreen" >
+        </activity>
+        <activity android:name=".Setting_Pin" >
         </activity>
     </application>
 
