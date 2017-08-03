@@ -7,5 +7,23 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.besafe.noubax.besafe.Main"
     tools:showIn="@layout/activity_main">
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/accountsView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:visibility="gone"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:layout_centerInParent="true"
+        android:id="@+id/textView6" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></RelativeLayout>
 </android.support.constraint.ConstraintLayout>
