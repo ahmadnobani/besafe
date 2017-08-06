@@ -280,6 +280,19 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         c.close();
         return data;
     }
+    public List<Type> GetExactTypes(String Search_key){
+        List<Type> data = new ArrayList<Type>();
+        SQLiteDatabase db = getWritableDatabase();
+        String selectQuery = "SELECT  * FROM " + TABLE_TYPE +" where "+TYPE_NAME+" = '"+Search_key +"'";
+        Cursor c = db.rawQuery(selectQuery, null);
+        if ( c.moveToFirst () ) {
+            do {
+                data.add ( new Type (Integer.parseInt(c.getString(0)) , c.getString(1) , c.getString(2) , c.getString(3) , c.getString(4) ) );
+            } while (c.moveToNext());
+        }
+        c.close();
+        return data;
+    }
     public List<Type> SearchTypes(String Search_key){
         List<Type> data = new ArrayList<Type>();
         SQLiteDatabase db = getWritableDatabase();
@@ -318,7 +331,7 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         values.put(TYPE_URL , type.get_url());
         values.put(TYPE_IMAGE , type.get_image());
         values.put(TYPE_DATE, type.get_createDate());
-        List<Type> serachre = SearchTypes(type.get_type());
+        List<Type> serachre = GetExactTypes(type.get_type());
         if(serachre.size() == 0){
             db.update(TABLE_TYPE, values, TYPE_ID + "=?", new String[]{String.valueOf(type.get_ID())});
             return true;

@@ -1,10 +1,12 @@
 package com.besafe.noubax.besafe;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +48,7 @@ public class CreateAccount extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(getBaseContext(), Createcate.class);
                 i.putExtra("is_from_account", 1);
-                startActivity(i);
+                startActivityForResult(i,1);
             }
         });
         type = (Spinner) findViewById(R.id.spinnerType);
@@ -96,11 +98,22 @@ public class CreateAccount extends AppCompatActivity {
             username.setText(old_account.get_username());
             password.setText(old_account.get_password());
             Type getting_type = db.getType(Integer.parseInt(old_account.get_type()));
-           type.setSelection(selectSpinnerItemByValue(list1 , getting_type.get_type()));
+           //type.setSelection(selectSpinnerItemByValue(list1 , getting_type.get_type()));
 
         }
-    }
 
+
+    }
+    String returnValue = null;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+                if (resultCode == Activity.RESULT_OK) {
+                    returnValue = data.getStringExtra("created_cat");
+
+                    Log.d("LogArranger" , "onActivityResult");
+                }
+    }
     public int selectSpinnerItemByValue( List<spinnerObject> list , String Item)
     {
         int returnid = 0;
@@ -120,5 +133,10 @@ public class CreateAccount extends AppCompatActivity {
         list1.addAll(db.SpinnerGetAllTypes());
         typeAdapter.notifyDataSetChanged();
         type.setAdapter(typeAdapter);
+        Log.d("LogArranger" , "onResume");
+        if (returnValue != null){
+            type.setSelection(selectSpinnerItemByValue(list1 , returnValue));
+        }
+
     }
 }

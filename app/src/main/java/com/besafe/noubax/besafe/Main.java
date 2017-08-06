@@ -29,6 +29,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -86,14 +88,27 @@ public class Main extends AppCompatActivity {
         deleteDialog.setView(deleteDialogView);
         accounts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view,final  int position, long id) {
                 TextView username1 = (TextView) deleteDialogView.findViewById(R.id.textView2);
-                TextView password1 = (TextView) deleteDialogView.findViewById(R.id.textView4);
+                final TextView password1 = (TextView) deleteDialogView.findViewById(R.id.textView4);
+                final CheckBox ShowPasswordCheckBox = (CheckBox) deleteDialogView.findViewById(R.id.ShowPasswordCheckBox);
                 username1.setText(account_list.get(position).get_username());
-                password1.setText(account_list.get(position).get_password());
+                password1.setText("********");
                 deleteDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        password1.setText("********");
+                        ShowPasswordCheckBox.setChecked(false);
                         deleteDialog.dismiss();
+                    }
+                });
+                ShowPasswordCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        if(isChecked){
+                            password1.setText(account_list.get(position).get_password());
+                        }else{
+                            password1.setText("********");
+                        }
                     }
                 });
                 deleteDialog.show();
