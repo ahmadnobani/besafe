@@ -79,7 +79,7 @@ public class CreateAccount extends AppCompatActivity {
                         db.updateAccount(account);
                         startActivity(i);
                     }else{
-                        Toast.makeText(c , "You have to fill all inputs" , Toast.LENGTH_LONG).show();
+                        Toast.makeText(c , getResources().getString(R.string._fill_inputs) , Toast.LENGTH_LONG).show();
                     }
                 }else{
                     if(!(username.getText().toString().equals("")) && !(password.getText().toString().equals(""))) {
@@ -87,7 +87,7 @@ public class CreateAccount extends AppCompatActivity {
                         db.createAccount(account);
                         startActivity(i);
                     }else{
-                            Toast.makeText(c , "You have to fill all inputs" , Toast.LENGTH_LONG).show();
+                            Toast.makeText(c ,getResources().getString(R.string._fill_inputs), Toast.LENGTH_LONG).show();
                     }
                 }
             }

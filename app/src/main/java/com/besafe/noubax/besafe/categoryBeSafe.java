@@ -95,16 +95,16 @@ public class categoryBeSafe extends AppCompatActivity {
                     TextView TextViewUsername = (TextView) deleteDialogView2.findViewById(R.id.textView5);
                     Button EditButton = (Button) deleteDialogView2.findViewById(R.id.editeacc);
                     Button DeleteButton = (Button) deleteDialogView2.findViewById(R.id.Deleteacc);
-                    EditButton.setText("Edite");
-                    DeleteButton.setText("Delete");
+                    EditButton.setText(getResources().getString(R.string._edit));
+                    DeleteButton.setText(getResources().getString(R.string._delete));
                     TextViewUsername.setText((Type_list.get(position).get_type()));
                     DeleteButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            deleteDialog1.setTitle("Delete Category ?");
-                            deleteDialog1.setMessage("Are you sure ,you what to delete (" + Type_list.get(position).get_type() + ") category ?");
-                            deleteDialog1.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                            deleteDialog1.setTitle(getResources().getString(R.string._delete_cat));
+                            deleteDialog1.setMessage(getResources().getString(R.string._delete_account_ar_you_sure_part1) + Type_list.get(position).get_type() +getResources().getString(R.string._delete_cat_ar_you_sure_part2) );
+                            deleteDialog1.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string._yes), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     db.deleteType(Type_list.get(position).get_ID());
                                     Type_list.remove(Type_list.get(position));
@@ -114,7 +114,7 @@ public class categoryBeSafe extends AppCompatActivity {
                                     deleteDialog23.dismiss();
                                 }
                             });
-                            deleteDialog1.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                            deleteDialog1.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string._no), new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
                                     deleteDialog1.dismiss();
                                     deleteDialog23.dismiss();
@@ -134,7 +134,7 @@ public class categoryBeSafe extends AppCompatActivity {
                     });
                     deleteDialog23.show();
                 } else {
-                    Toast.makeText(c , "Sorry this category cant be edit" , Toast.LENGTH_LONG).show();
+                    Toast.makeText(c , getResources().getString(R.string._cant_delete_cat) , Toast.LENGTH_LONG).show();
                 }
                 return true;
             }

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.sql.Date;
 import java.text.DateFormat;
@@ -396,6 +397,13 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         }
         db.update(TABLE_SYSTEM, values, SYSTEM_ID + "=?", new String[]{String.valueOf(system.get_ID())});
     }
+    public void updateSystemLanguage(String Lang){
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(SYSTEM_LANGUAGE , Lang);
+        int a = db.update(TABLE_SYSTEM, values, SYSTEM_ID + "=?", new String[]{String.valueOf(1)});
+        Log.d("Lang" , a +"");
+    }
     public System getSystem(){
         int id = 1;
         SQLiteDatabase db = getWritableDatabase();
@@ -442,7 +450,6 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     }
     private boolean checkWriteExternalPermission()
     {
-
         String permission = "android.permission.READ_PHONE_STATE";
         int res = _context.checkCallingOrSelfPermission(permission);
         return (res == PackageManager.PERMISSION_GRANTED);

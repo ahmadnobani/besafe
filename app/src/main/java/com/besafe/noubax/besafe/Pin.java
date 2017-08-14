@@ -2,6 +2,8 @@ package com.besafe.noubax.besafe;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ public class Pin extends AppCompatActivity  implements View.OnClickListener{
     String pp12;
     ImageButton imageButton;
     DataBaseHandler DB;
+    CountDownTimer mTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +35,7 @@ public class Pin extends AppCompatActivity  implements View.OnClickListener{
         setContentView(R.layout.activity_pin);
         DB = new DataBaseHandler(this);
         System _system= DB.getSystem();
-        pp12 = _system.get_lock();
+        pp12 = "0000"; //_system.get_lock();
         imageButton = (ImageButton) findViewById(R.id.imageButton);
         o0 = (TextView) findViewById(R.id.o0);
         o1 = (TextView) findViewById(R.id.o1);
@@ -56,6 +59,24 @@ public class Pin extends AppCompatActivity  implements View.OnClickListener{
         o8.setOnClickListener(this);
         o9.setOnClickListener(this);
         imageButton.setOnClickListener(this);
+        imageButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        deleteChar();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        mTimer.cancel();
+
+                        break;
+                }
+
+                return false;
+            }
+        });
     }
     @Override
     public void onClick(View v) {
@@ -123,5 +144,26 @@ public class Pin extends AppCompatActivity  implements View.OnClickListener{
     @Override
     public void onBackPressed() {
 
+    }
+    private void deleteChar(){
+        // set the desired interval. I'm gonna use 500ms before last char deletion.
+        mTimer = new CountDownTimer(9999999, 300) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if( pass.getText().toString().length() > 0) {
+                    String string = pass.getText().toString().substring(0, pass.getText().toString().length() - 1);
+                    pass.setText(string);
+                    ch();
+                }
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        };
+        mTimer.start();
     }
 }

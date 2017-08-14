@@ -54,7 +54,7 @@ public class Createcate extends AppCompatActivity {
                                 finish();
                             }else {
                                 View view = findViewById(android.R.id.content);
-                                Snackbar.make(view, "Category exist !", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(view, getResources().getString(R.string._cat_exist), Snackbar.LENGTH_LONG).show();
                             }
                         } else {
 
@@ -64,11 +64,11 @@ public class Createcate extends AppCompatActivity {
                                 finish();
                             }else {
                                 View view = findViewById(android.R.id.content);
-                                Snackbar.make(view, "Category exist !", Snackbar.LENGTH_LONG).show();
+                                Snackbar.make(view, getResources().getString(R.string._cat_exist), Snackbar.LENGTH_LONG).show();
                             }
                         }
                     } else {
-                        Toast.makeText(c, "You have to fill all inputs", Toast.LENGTH_LONG).show();
+                        Toast.makeText(c, getResources().getString(R.string._fill_inputs), Toast.LENGTH_LONG).show();
                     }
                 } else {
                     if (!(catName.getText().toString().equals(""))) {
@@ -78,10 +78,10 @@ public class Createcate extends AppCompatActivity {
                             finish();
                         }else {
                             View view = findViewById(android.R.id.content);
-                            Snackbar.make(view, "Category exist !", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(view, getResources().getString(R.string._cat_exist), Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(c, "You have to fill all inputs", Toast.LENGTH_LONG).show();
+                        Toast.makeText(c, getResources().getString(R.string._fill_inputs), Toast.LENGTH_LONG).show();
                     }
                 }
             }

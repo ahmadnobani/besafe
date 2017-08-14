@@ -10,41 +10,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.os.Debug;
 import android.provider.Settings.Secure;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.List;
 import java.util.UUID;
-
 import DB.*;
 import objects.Encryption;
 import objects.accountListViewObject;
+import objects.AppGeneral;
 public class Main extends AppCompatActivity {
     ListView accounts;
-    DataBaseHandler db;
     Context c = this;
     accountListViewObject account_adabter;
     List<Account> account_list;
@@ -53,13 +40,17 @@ public class Main extends AppCompatActivity {
     public Encryption encryption;
     SharedPreferences pref;
     boolean isCodeSecurityOpen = true;
+    TextView textView6;
+    AppGeneral APP;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        APP = new AppGeneral(this);
+        Intent i = new Intent(getBaseContext(), pattren_lock.class);
+        startActivity(i);
         String android_id = Secure.getString(c.getContentResolver(),
                 Secure.ANDROID_ID);
-        db = new DataBaseHandler(this);
         encryption = Encryption.getDefault(GetPI(), "Salt", new byte[16]);
         pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
 
@@ -69,16 +60,21 @@ public class Main extends AppCompatActivity {
         // String encrypted = encryption.encryptOrNull("top secret string");
 
         //String decrypted = encryption.decryptOrNull(encrypted);
-        //Toast.makeText(c ,encrypted+" \n\n"+decrypted , Toast.LENGTH_LONG).show();
-       /* Intent intent = new Intent(this, pattren_lock.class);
-       LockPatternActivity.IntentBuilder.newPatternCreator(c)
-                .startForResult(, REQ_CREATE_PATTERN);*/
 
-        account_list = db.getAllAccounts(null);
+
+        account_list =  APP.db.getAllAccounts(null);
         account_adabter  = new accountListViewObject(this , account_list);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        textView6 = (TextView) findViewById(R.id.textView6);
+
         setSupportActionBar(toolbar);
         accounts = (ListView) findViewById(R.id.accLists);
+        if(account_list.size() == 0){
+            accounts.setVisibility(View.GONE);
+            textView6.setVisibility(View.VISIBLE);
+        }else{
+            textView6.setVisibility(View.GONE);
+        }
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         accounts.setAdapter(account_adabter);
         LayoutInflater factory = LayoutInflater.from(this);
@@ -94,7 +90,7 @@ public class Main extends AppCompatActivity {
                 final CheckBox ShowPasswordCheckBox = (CheckBox) deleteDialogView.findViewById(R.id.ShowPasswordCheckBox);
                 username1.setText(account_list.get(position).get_username());
                 password1.setText("********");
-                deleteDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                deleteDialog.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string._ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         password1.setText("********");
                         ShowPasswordCheckBox.setChecked(false);
@@ -132,19 +128,23 @@ public class Main extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        deleteDialog1.setTitle("Delete Account ?");
-                        deleteDialog1.setMessage("Are you sure ,you what to delete (" + account_list.get(position).get_username() + ") account ?");
-                        deleteDialog1.setButton(AlertDialog.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                        deleteDialog1.setTitle(getResources().getString(R.string._delete_account));
+                        deleteDialog1.setMessage(getResources().getString(R.string._delete_account_ar_you_sure_part1)+ account_list.get(position).get_username() + getResources().getString(R.string._delete_account_ar_you_sure_part2));
+                        deleteDialog1.setButton(AlertDialog.BUTTON_POSITIVE, getResources().getString(R.string._yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                db.deleteAccount(account_list.get(position).get_ID());
+                                APP.db.deleteAccount(account_list.get(position).get_ID());
                                 account_list.remove(account_list.get(position));
+                                if(account_list.size() == 0){
+                                    accounts.setVisibility(View.GONE);
+                                    textView6.setVisibility(View.VISIBLE);
+                                }
                                 account_adabter.notifyDataSetChanged();
                                 accounts.setAdapter(account_adabter);
                                 deleteDialog1.dismiss();
                                 deleteDialog23.dismiss();
                             }
                         });
-                        deleteDialog1.setButton(AlertDialog.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                        deleteDialog1.setButton(AlertDialog.BUTTON_NEGATIVE, getResources().getString(R.string._no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 deleteDialog1.dismiss();
                                 deleteDialog23.dismiss();
@@ -183,9 +183,17 @@ public class Main extends AppCompatActivity {
             showLockScreen(1);
         }
         account_list.clear();
-        account_list.addAll(db.getAllAccounts(null));
+        account_list.addAll( APP.db.getAllAccounts(null));
         account_adabter.notifyDataSetChanged();
         accounts.setAdapter(account_adabter);
+        if(account_list.size() == 0){
+            accounts.setVisibility(View.GONE);
+            textView6.setVisibility(View.VISIBLE);
+        }else{
+            accounts.setVisibility(View.VISIBLE);
+            textView6.setVisibility(View.GONE);
+        }
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -221,7 +229,7 @@ public class Main extends AppCompatActivity {
         }
         this.doubleBackToExitPressedOnce = true;
         View view = findViewById(android.R.id.content);
-        Snackbar.make(view, "Please click BACK again to exit", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(view, getResources().getString(R.string._back_to_exit), Snackbar.LENGTH_LONG).show();
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -268,7 +276,7 @@ public class Main extends AppCompatActivity {
     }
     private void showLockScreen(int type){
         if(type == 1){
-            DB.System _system= db.getSystem();
+            DB.System _system= APP.db.getSystem();
             String pp12 = _system.get_lock().toString();
             if(!pp12.equals("none") && isCodeSecurityOpen) {
                 Intent i = new Intent(getBaseContext(), Pin.class);

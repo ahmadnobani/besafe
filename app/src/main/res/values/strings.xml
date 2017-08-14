@@ -4,15 +4,38 @@
     <string name="action_settings">Setting</string>
     <string name="action_about">About</string>
     <string name="title_activity_about">About Be Safe</string>
+    <string name="_ok">OK</string>
+    <string name="_yes">YES</string>
+    <string name="_no">NO</string>
+    <string name="_edit">Edit</string>
+    <string name="_delete">Delete</string>
+    <string name="_delete_cat">Delete Category</string>
+    <string name="_delete_account">Delete Account ?</string>
+    <string name="_delete_account_ar_you_sure_part1">Are you sure ,you what to delete (</string>
+    <string name="_delete_account_ar_you_sure_part2">) account ?</string>
+    <string name="_delete_cat_ar_you_sure_part2">) category ?</string>
+    <string name="_back_to_exit">Please click BACK again to exit</string>
+    <string name="_cant_delete_cat"> Sorry this category cant be edit</string>
+    <string name="_cat_exist"> Category exist ! </string>
+    <string name="_fill_inputs"> You have to fill all inputs </string>
+    <string name="_edit_account"> Edit this account </string>
+    <string name="_delete_this_account"> Delete this account </string>
+    <string name="_username"> Username :  </string>
+    <string name="_password"> Password :  </string>
+    <string name="_show_password">Show Password</string>
+    <string name="_name_cat">Name your category</string>
+    <string name="_empty_main_imput_message">Please add new account by pressing on plus icon below</string>
+    <string name="_cat_name"> Category Name </string>
+    <string name="_save">Save</string>
+    <string name="_add">Add</string>
+    <string name="_account">Account</string>
     <string name="large_text">
         "Be Safe App.\n\n"
 
         "This app for saving your account detales to save yourself from forgetting your account information.\n\n"
         "Make sure that all of your information will be safe and encripted , so no one can be hacking you.\n\n"
         "Application Vesion : 1.1.1 .\n\n"
-        "All right resirved for ahmad nobani .\n\n"
-        "Email : dev.ahmad.b@gmail.com .\n\n"
-        "Copyright : 2017.\n\n"
+
     </string>
     <string name="title_activity_master_setting">BeSafe Settings</string>
 
